@@ -1,3 +1,6 @@
+// Install dependence
+// npm install gulp gulp-uglify gulp-minify-css gulp-imagemin gulp-useref gulp-jsvalidate gulp-concat gulp-cache
+
 var 
 gulp   	    = require('gulp'),
 uglify      = require('gulp-uglify'),
@@ -14,7 +17,7 @@ config      = {
     js      : 'assets/js/*.js',
     jsLibs  : 'assets/js/libs/*.js',
     imgs    : 'assets/imgs/*',
-    html    : 'assets/html/*.html',
+    html    : 'assets/*.html',
   },
   pathsMin: {
     css    : 'deploy/css/',
@@ -23,15 +26,21 @@ config      = {
     html   : 'deploy/',
   },
   tasks : {
-    js       : 'js',
-    jsLibs   : 'jsLibs',
-    css      : 'css',
-    cssLibs  : 'cssLibs',
-    html     : 'html',
-    imgs     : 'imgs'
+    js      : 'js',
+    jsLibs  : 'jsLibs',
+    css     : 'css',
+    cssLibs : 'cssLibs',
+    html    : 'html',
+    imgs    : 'imgs'
   }
 }
 
+/*
+  Task js
+  path: assets/js/*.js
+  save to: deploy/js/all.js
+  dependece: gulp-jsvalidate, gulp-concat, gulp-uglify
+*/
 gulp.task(config.tasks.js, function() {
   gulp.src(config.paths.js)
     .pipe(jsValidate())
@@ -39,36 +48,71 @@ gulp.task(config.tasks.js, function() {
     .pipe(uglify())
     .pipe(gulp.dest(config.pathsMin.js));
 });
+
+/*
+  Task jsLibs
+  path: assets/js/libs/*.js
+  save to: deploy/js/plugins.js
+  dependece: gulp-jsvalidate, gulp-concat, gulp-uglify
+*/
 gulp.task(config.tasks.jsLibs, function() {
   gulp.src(config.paths.jsLibs)
     .pipe(concat("plugins.js"))
     .pipe(uglify())
     .pipe(gulp.dest(config.pathsMin.js))
 });
+
+/*
+  Task css
+  path: assets/css/*.css
+  save to: deploy/css/all.css
+  dependece: gulp-concat, gulp-minify-css
+*/
 gulp.task(config.tasks.css, function () {
   gulp.src(config.paths.css)
     .pipe(concat("all.css"))
     .pipe(cssUglify())
     .pipe(gulp.dest(config.pathsMin.css));
 });
+
+/*
+  Task cssLibs
+  path: assets/css/libs/*.css
+  save to: deploy/css/plugins.css
+  dependece: gulp-concat, gulp-minify-css
+*/
 gulp.task(config.tasks.cssLibs, function() {
   gulp.src(config.paths.cssLibs)
     .pipe(concat("plugins.css"))
     .pipe(cssUglify())
     .pipe(gulp.dest(config.pathsMin.css))
 });	
+
+/*
+  Task html
+  path: assets/*.html
+  save to: deploy/
+  dependece: gulp-useref
+*/
 gulp.task(config.tasks.html, function () {
   gulp.src(config.paths.html)
     .pipe(useref())
     .pipe(gulp.dest(config.pathsMin.html));
 }); 
+
+/*
+  Task imgs
+  path: assets/imgs/*
+  save to: deploy/imgs/
+  dependece: gulp-cache, gulp-imagemin
+*/
 gulp.task(config.tasks.imgs, function () {
   gulp.src(config.paths.imgs)
     .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
     .pipe(gulp.dest(config.pathsMin.imgs));
 });
 
-
+// Task watch
 gulp.task('watch', function() {
   gulp.watch(config.paths.html, function() {
     gulp.run(config.tasks.html);
@@ -84,6 +128,7 @@ gulp.task('watch', function() {
   });
 });
 
+// Task default
 gulp.task('default', function() {
 		gulp.run('watch');
 });
