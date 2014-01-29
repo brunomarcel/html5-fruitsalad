@@ -3,9 +3,10 @@ gulp   	    = require('gulp'),
 uglify      = require('gulp-uglify'),
 cssUglify   = require('gulp-minify-css'),
 imagemin    = require('gulp-imagemin'),
-minifyHTML  = require('gulp-minify-html'),
 useref      = require('gulp-useref'),
 jsValidate  = require('gulp-jsvalidate'),
+concat      = require('gulp-concat'),
+cache       = require('gulp-cache'),
 config      = {
   paths: {
     css     : 'assets/css/*.css',
@@ -34,34 +35,36 @@ config      = {
 gulp.task(config.tasks.js, function() {
   gulp.src(config.paths.js)
     .pipe(jsValidate())
+    .pipe(concat("all.js"))
     .pipe(uglify())
     .pipe(gulp.dest(config.pathsMin.js));
 });
 gulp.task(config.tasks.jsLibs, function() {
   gulp.src(config.paths.jsLibs)
+    .pipe(concat("plugins.js"))
     .pipe(uglify())
     .pipe(gulp.dest(config.pathsMin.js))
 });
-
 gulp.task(config.tasks.css, function () {
   gulp.src(config.paths.css)
+    .pipe(concat("all.css"))
     .pipe(cssUglify())
     .pipe(gulp.dest(config.pathsMin.css));
 });
 gulp.task(config.tasks.cssLibs, function() {
   gulp.src(config.paths.cssLibs)
+    .pipe(concat("plugins.css"))
     .pipe(cssUglify())
     .pipe(gulp.dest(config.pathsMin.css))
 });	
 gulp.task(config.tasks.html, function () {
   gulp.src(config.paths.html)
-    .pipe(minifyHTML())
     .pipe(useref())
     .pipe(gulp.dest(config.pathsMin.html));
 }); 
 gulp.task(config.tasks.imgs, function () {
   gulp.src(config.paths.imgs)
-    .pipe(imagemin())
+    .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
     .pipe(gulp.dest(config.pathsMin.imgs));
 });
 
