@@ -1,0 +1,37 @@
+{
+  "name": "html5-fruitsalad",
+  "version": "0.0.1",
+  "description": "HTML5 Fruit Salad is a partner to build your file structure and to deploy your website using the best concepts and some of the best libraries used worldwide, including Gulp The streaming build system and Node a platform built on JavaScript.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brunomarcel/html5-fruitsalad.git"
+  },
+  "keywords": [
+    "HTML5",
+    "Fruit",
+    "Salad",
+    "deploy",
+    "website",
+    "Gulp",
+    "Nodejs",
+    "JavaScript."
+  ],
+  "author": "brunomarcel",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "f345aeae8ca90386783149242d8ad2d8245af747",
+  "devDependencies": {
+    "gulp-jsvalidate": "~0.1.1",
+    "gulp-concat": "~2.1.7",
+    "gulp-uglify": "~0.2.0",
+    "gulp": "~3.5.1",
+    "gulp-minify-css": "~0.2.0",
+    "gulp-useref": "~0.1.1",
+    "gulp-cache": "~0.1.1",
+    "gulp-imagemin": "~0.1.4"
+  }
+}
