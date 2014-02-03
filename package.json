@@ -24,7 +24,7 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "gitHead": "f345aeae8ca90386783149242d8ad2d8245af747",
-  "devDependencies": {
+  "dependencies": {
     "gulp-jsvalidate": "~0.1.1",
     "gulp-concat": "~2.1.7",
     "gulp-uglify": "~0.2.0",
